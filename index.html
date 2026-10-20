@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101116" />
+    <meta
+      name="description"
+      content="Chrono is a calm, precise clock with a stopwatch and countdown timer."
+    />
+    <title>Chrono — Time, in focus</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Chrono home">
+          <span class="brand-mark" aria-hidden="true"
+            ><span></span><span></span
+          ></span>
+          <span>chrono</span>
+        </a>
+        <div class="topbar-actions">
+          <button
+            class="icon-button"
+            id="theme-toggle"
+            type="button"
+            aria-label="Switch to light theme"
+            title="Toggle theme"
+          >
+            <svg class="theme-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"></circle>
+              <path
+                d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"
+              ></path>
+            </svg>
+          </button>
+          <button
+            class="icon-button"
+            id="fullscreen-toggle"
+            type="button"
+            aria-label="Enter fullscreen"
+            title="Toggle fullscreen"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M8 3H5a2 2 0 0 0-2 2v3m13-5h3a2 2 0 0 1 2 2v3M3 16v3a2 2 0 0 0 2 2h3m13-5v3a2 2 0 0 1-2 2h-3"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <section class="clock-section" aria-labelledby="clock-heading">
+        <div class="eyebrow">
+          <span class="live-dot"></span> YOUR LOCAL TIME
+        </div>
+        <h1 class="visually-hidden" id="clock-heading">Current local time</h1>
+        <div class="clock-face">
+          <time
+            class="clock-time"
+            id="clock-time"
+            aria-label="Current local time"
+          ></time>
+          <span class="timezone-label" id="timezone-label"></span>
+        </div>
+        <p class="clock-date" id="clock-date"></p>
+
+        <div class="clock-controls" aria-label="Clock display settings">
+          <button
+            class="setting-chip"
+            id="format-toggle"
+            type="button"
+            aria-pressed="false"
+          >
+            <span class="chip-label">FORMAT</span>
+            <span id="format-value">24-hour</span>
+          </button>
+          <button
+            class="setting-chip"
+            id="seconds-toggle"
+            type="button"
+            aria-pressed="true"
+          >
+            <span class="chip-label">SECONDS</span>
+            <span id="seconds-value">On</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="tools-grid" aria-label="Time tools">
+        <article class="tool-card" aria-labelledby="stopwatch-heading">
+          <div class="card-heading">
+            <div class="tool-title">
+              <span class="tool-icon stopwatch-icon" aria-hidden="true">◷</span>
+              <div>
+                <p class="eyebrow">KEEP TRACK</p>
+                <h2 id="stopwatch-heading">Stopwatch</h2>
+              </div>
+            </div>
+            <span class="card-index">01</span>
+          </div>
+          <output
+            class="elapsed-display"
+            id="stopwatch-display"
+            aria-label="Stopwatch time"
+            >00:00<span>.00</span></output
+          >
+          <div class="tool-actions">
+            <button
+              class="button button-primary"
+              id="stopwatch-start"
+              type="button"
+            >
+              Start
+            </button>
+            <button
+              class="button button-secondary"
+              id="stopwatch-lap"
+              type="button"
+              disabled
+            >
+              Lap
+            </button>
+            <button
+              class="button button-quiet"
+              id="stopwatch-reset"
+              type="button"
+            >
+              Reset
+            </button>
+          </div>
+          <ol
+            class="lap-list"
+            id="lap-list"
+            aria-label="Stopwatch laps"
+            aria-live="polite"
+          ></ol>
+        </article>
+
+        <article class="tool-card" aria-labelledby="countdown-heading">
+          <div class="card-heading">
+            <div class="tool-title">
+              <span class="tool-icon timer-icon" aria-hidden="true">◴</span>
+              <div>
+                <p class="eyebrow">MAKE IT COUNT</p>
+                <h2 id="countdown-heading">Countdown</h2>
+              </div>
+            </div>
+            <span class="card-index">02</span>
+          </div>
+          <output
+            class="elapsed-display countdown-display"
+            id="countdown-display"
+            aria-label="Countdown remaining"
+            >00:00<span>.00</span></output
+          >
+          <div class="duration-fields" aria-label="Countdown duration">
+            <label
+              ><span class="visually-hidden">Hours</span
+              ><input
+                id="duration-hours"
+                type="number"
+                min="0"
+                max="99"
+                value="0"
+                inputmode="numeric"
+                aria-label="Hours"
+              /><span>hr</span></label
+            >
+            <i aria-hidden="true">:</i>
+            <label
+              ><span class="visually-hidden">Minutes</span
+              ><input
+                id="duration-minutes"
+                type="number"
+                min="0"
+                max="59"
+                value="5"
+                inputmode="numeric"
+                aria-label="Minutes"
+              /><span>min</span></label
+            >
+            <i aria-hidden="true">:</i>
+            <label
+              ><span class="visually-hidden">Seconds</span
+              ><input
+                id="duration-seconds"
+                type="number"
+                min="0"
+                max="59"
+                value="0"
+                inputmode="numeric"
+                aria-label="Seconds"
+              /><span>sec</span></label
+            >
+          </div>
+          <div class="tool-actions">
+            <button
+              class="button button-primary"
+              id="countdown-start"
+              type="button"
+            >
+              Start
+            </button>
+            <button
+              class="button button-secondary"
+              id="countdown-pause"
+              type="button"
+              disabled
+            >
+              Pause
+            </button>
+            <button
+              class="button button-quiet"
+              id="countdown-reset"
+              type="button"
+            >
+              Reset
+            </button>
+          </div>
+          <p
+            class="timer-status"
+            id="countdown-status"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </article>
+      </section>
+
+      <footer class="page-footer">
+        <span>TIME, IN FOCUS.</span>
+        <span>MADE FOR THE MOMENT <span aria-hidden="true">✳</span></span>
+      </footer>
+    </main>
+  </body>
+</html>
